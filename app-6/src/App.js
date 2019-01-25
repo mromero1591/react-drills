@@ -1,18 +1,45 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Todo from './Components/Todo'
 
 class App extends Component {
+
+  constructor() {
+    super();
+
+    this.state = {
+      todoList: [],
+      userInput: ''
+    }
+  }
+
+  handleUserInput = (value) => {
+    this.setState({userInput: value});
+  }
+
+  updateTodoList = () => {
+    //create varibale for the temp state
+    let tempTodoList = this.state.todoList;
+    let tempInput = this.state.userInput;
+
+    //push the input into the temp todo state.
+    tempTodoList.push(tempInput);
+
+    //update the componenets state.
+    this.setState({
+      todoList: tempTodoList,
+      userInput: ''
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h2>My Todo List</h2>
+        <input value={this.state.userInput} onChange= {(e) => {this.handleUserInput(e.target.value)}}/>
+        <button onClick={this.updateTodoList}>Add todo</button>
+        <Todo list={this.state.todoList} />
       </div>
     );
   }
